@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Login — Photoxcel</title>
+    <link rel="stylesheet" href="/styles.css" />
+    <style>
+      .auth-wrapper { display: grid; place-items: center; min-height: calc(100vh - 120px); }
+      .card { background: linear-gradient(180deg, #0f1524 0%, #11182a 100%); border: 1px solid var(--border); border-radius: 16px; padding: 24px; width: 100%; max-width: 420px; }
+      .card h2 { margin: 0 0 8px 0; }
+      .card p { color: var(--muted); margin: 0 0 20px 0; }
+      .oauth { display: grid; gap: 10px; margin-top: 12px; }
+      .btn { padding: 10px 14px; border-radius: 8px; border: 1px solid var(--border); background: #0e1320; color: var(--text); cursor: pointer; }
+      .btn.primary { background: linear-gradient(90deg, var(--brand) 0%, var(--brand-2) 100%); color: #fff; border: none; }
+      .split { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 10px; margin: 16px 0; }
+      .split hr { border: none; height: 1px; background: var(--border); }
+      .help { color: var(--muted); font-size: 12px; margin-top: 12px; }
+    </style>
+  </head>
+  <body>
+    <header class="app-header">
+      <div class="header-content">
+        <div class="brand">
+          <div class="logo">📸</div>
+          <h1>Photoxcel</h1>
+        </div>
+        <nav class="nav-menu">
+          <a href="/index.html" class="nav-link">Home</a>
+          <a href="/about.html" class="nav-link">About</a>
+        </nav>
+      </div>
+      <p class="tagline">Login to continue</p>
+    </header>
+
+    <main class="container auth-wrapper">
+      <div class="card">
+        <h2>Welcome back</h2>
+        <p>Sign in to your account</p>
+        <form id="loginForm">
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" placeholder="you@example.com" required />
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" placeholder="••••••••" required />
+          </div>
+          <button type="submit" class="btn primary" id="loginBtn">Continue</button>
+        </form>
+
+        <div class="split">
+          <hr />
+          <span class="muted">or</span>
+          <hr />
+        </div>
+
+        <div class="oauth">
+          <button class="btn" id="googleBtn">Continue with Google</button>
+          <button class="btn" id="githubBtn">Continue with GitHub</button>
+        </div>
+
+        <div class="help">You can wire these buttons to Firebase Auth providers.</div>
+      </div>
+    </main>
+
+    <footer class="app-footer">
+      <p>© Photoxcel</p>
+      <div class="footer-badge">All rights reserved | Erekan Developments</div>
+    </footer>
+
+    <script>
+      // Minimal hooks so you can plug Firebase here
+      document.getElementById('loginForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        console.log('Login form submitted', { email });
+        alert('Hook this to Firebase Email/Password sign-in');
+      });
+      document.getElementById('googleBtn').addEventListener('click', () => {
+        alert('Hook this to Firebase GoogleAuthProvider');
+      });
+      document.getElementById('githubBtn').addEventListener('click', () => {
+        alert('Hook this to Firebase GithubAuthProvider');
+      });
+    </script>
+  </body>
+  </html>
+
+

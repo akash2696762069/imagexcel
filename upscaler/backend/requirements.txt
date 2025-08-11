@@ -1,0 +1,7 @@
+Flask==3.0.3
+Pillow>=10.3.0
+opencv-contrib-python>=4.9.0.80
+rembg>=2.0.56
+torch>=2.1.0; platform_system != 'Windows' or platform_machine == 'x86_64'
+realesrgan
+

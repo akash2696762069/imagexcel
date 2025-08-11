@@ -1,0 +1,320 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Photoxcel — AI Image Upscaler and Enhancer</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+         <header class="app-header">
+       <div class="header-content">
+         <div class="brand">
+           <div class="logo">📸</div>
+           <h1>Photoxcel</h1>
+         </div>
+          <nav class="nav-menu">
+            <a href="/about.html" class="nav-link">About</a>
+            <a href="#contact" class="nav-link">Contact</a>
+            <a href="/login.html" class="nav-btn primary">Login</a>
+          </nav>
+       </div>
+       <p class="tagline">Smart image cartoonizer, upscaling and enhancement — Tools</p>
+     </header>
+
+    <main class="container">
+      <section class="panel hero-panel">
+        <div class="hero-content">
+          <h2 id="activeToolTitle">Image Upscaler</h2>
+          <p id="activeToolDesc" class="muted">Enhance details and upscale your images with AI.</p>
+        </div>
+      </section>
+
+             <section class="panel upload-panel">
+         <div class="tool-switcher">
+           <label for="toolSelect">Select Tool</label>
+           <select id="toolSelect">
+             <option value="cartoon" selected>Cartoonizer</option>
+             <option value="upscale">Upscale</option>
+             <option value="bgremove">Background Remover</option>
+             <option value="resize">Image Resizer</option>
+             <option value="convert">Image Converter</option>
+           </select>
+         </div>
+         
+         <div class="tool-description" id="toolDescription">
+           <p>Transform photos into cartoon, pencil, watercolor, ink, and comic styles with AI.</p>
+         </div>
+         
+         <h2>Upload Image</h2>
+         <form id="upscaleForm">
+           <div class="file-drop" id="fileDrop">
+             <input type="file" id="imageInput" name="image" accept="image/*" />
+             <p>Drag & drop an image here, or click to browse</p>
+           </div>
+
+           <div class="controls" id="controlsCartoon">
+             <div class="control-group">
+               <h3>Cartoon Style Options</h3>
+               <div class="control">
+                 <label for="cartoonStyle">Select Style</label>
+                 <select id="cartoonStyle">
+                   <option value="cartoon" selected>Cartoon</option>
+                   <option value="pencil">Pencil</option>
+                   <option value="watercolor">Watercolor</option>
+                   <option value="ink">Ink</option>
+                   <option value="comic">Comic</option>
+                 </select>
+               </div>
+             </div>
+           </div>
+
+           <div class="controls" id="controlsUpscale" hidden>
+             <div class="control-group">
+               <h3>Upscaling Options</h3>
+               <div class="control">
+                 <label for="scaleSelect">Scale Factor</label>
+                 <select id="scaleSelect" name="scale">
+                   <option value="1">1x</option>
+                   <option value="2" selected>2x</option>
+                   <option value="3">3x</option>
+                   <option value="4">4x</option>
+                 </select>
+               </div>
+
+               <div class="control">
+                 <label for="enhanceRange">Enhancement Level</label>
+                 <input type="range" id="enhanceRange" name="enhance" min="0.5" max="2" step="0.1" value="1" />
+                 <div class="hint" id="enhanceValue">1.0x</div>
+               </div>
+             </div>
+           </div>
+
+           <div class="controls" id="controlsBgRemove" hidden>
+             <div class="control-group">
+               <h3>Background Removal</h3>
+               <div class="control">
+                 <label>Background will be removed and preserved as transparent PNG.</label>
+               </div>
+               <div class="control" id="keepObjectsControl" hidden>
+                 <label for="keepObjects">Keep Objects</label>
+                 <select id="keepObjects">
+                   <option value="people" selected>People (Faces + Bodies)</option>
+                   <option value="faces">Only Faces</option>
+                   <option value="center">Center Object</option>
+                   <option value="background">Remove Background (Keep Everything)</option>
+                 </select>
+               </div>
+             </div>
+           </div>
+
+           <div class="controls" id="controlsResize" hidden>
+             <div class="control-group">
+               <h3>Resize Options</h3>
+               <div class="control">
+                 <label for="resizeWidth">Width (pixels)</label>
+                 <input type="number" id="resizeWidth" min="1" placeholder="e.g. 1024" />
+               </div>
+               <div class="control">
+                 <label for="resizeHeight">Height (pixels)</label>
+                 <input type="number" id="resizeHeight" min="1" placeholder="e.g. 768" />
+               </div>
+               <div class="control">
+                 <label for="keepAspect"><input type="checkbox" id="keepAspect" checked /> Keep aspect ratio</label>
+               </div>
+             </div>
+           </div>
+
+           <div class="controls" id="controlsConvert" hidden>
+             <div class="control-group">
+               <h3>Format Conversion</h3>
+               <div class="control">
+                 <label for="convertFormat">Output Format</label>
+                 <select id="convertFormat">
+                   <option value="png" selected>PNG</option>
+                   <option value="jpg">JPG</option>
+                   <option value="webp">WEBP</option>
+                 </select>
+               </div>
+             </div>
+           </div>
+
+           <button type="submit" class="primary" id="processBtn">Process</button>
+         </form>
+       </section>
+
+       <section class="panel preview-panel">
+         <h2>Preview</h2>
+         <div class="previews before-after">
+           <div class="preview-col">
+             <div class="preview-label">Original</div>
+             <img id="originalPreview" alt="Original preview" />
+           </div>
+           <div class="preview-divider">
+             <span>⇄</span>
+           </div>
+           <div class="preview-col">
+             <div class="preview-label">Enhanced</div>
+             <img id="resultPreview" alt="Upscaled result" />
+             <div class="meta" id="resultMeta"></div>
+             <a id="downloadLink" class="secondary" download>Download</a>
+           </div>
+         </div>
+       </section>
+
+       <section class="panel features-panel">
+         <h2>All Features</h2>
+         <div class="features-grid">
+           <div class="feature-card" data-tool="cartoon">
+             <div class="feature-icon">🎨</div>
+             <h3>AI Cartoonizer</h3>
+             <p>Transform photos into cartoon, pencil, watercolor, ink, and comic styles with AI.</p>
+             <div class="feature-styles">
+               <span class="style-tag">Cartoon</span>
+               <span class="style-tag">Pencil</span>
+               <span class="style-tag">Watercolor</span>
+               <span class="style-tag">Ink</span>
+               <span class="style-tag">Comic</span>
+             </div>
+           </div>
+           
+           <div class="feature-card" data-tool="upscale">
+             <div class="feature-icon">📈</div>
+             <h3>AI Upscaler</h3>
+             <p>Enhance image quality and upscale to 4x resolution with Real-ESRGAN AI.</p>
+             <div class="feature-styles">
+               <span class="style-tag">2x</span>
+               <span class="style-tag">3x</span>
+               <span class="style-tag">4x</span>
+               <span class="style-tag">AI Enhanced</span>
+             </div>
+           </div>
+           
+           <div class="feature-card" data-tool="bgremove">
+             <div class="feature-icon">✂️</div>
+             <h3>Smart Background Remover</h3>
+             <p>Remove backgrounds with AI detection for people, faces, and objects.</p>
+             <div class="feature-styles">
+               <span class="style-tag">People</span>
+               <span class="style-tag">Faces</span>
+               <span class="style-tag">Center Object</span>
+               <span class="style-tag">Transparent PNG</span>
+             </div>
+           </div>
+           
+           <div class="feature-card" data-tool="resize">
+             <div class="feature-icon">📏</div>
+             <h3>Image Resizer</h3>
+             <p>Resize images to exact dimensions while maintaining quality and aspect ratio.</p>
+             <div class="feature-styles">
+               <span class="style-tag">Custom Size</span>
+               <span class="style-tag">Aspect Ratio</span>
+               <span class="style-tag">High Quality</span>
+             </div>
+           </div>
+           
+           <div class="feature-card" data-tool="convert">
+             <div class="feature-icon">🔄</div>
+             <h3>Format Converter</h3>
+             <p>Convert between PNG, JPG, and WEBP formats with optimized settings.</p>
+             <div class="feature-styles">
+               <span class="style-tag">PNG</span>
+               <span class="style-tag">JPG</span>
+               <span class="style-tag">WEBP</span>
+               <span class="style-tag">Optimized</span>
+             </div>
+           </div>
+         </div>
+       </section>
+
+       <section class="panel about-panel" id="about">
+         <h2>About Photoxcel</h2>
+         <div class="about-content">
+           <div class="about-text">
+             <h3>AI-Powered Image Enhancement</h3>
+             <p>Photoxcel is your all-in-one solution for image processing and enhancement. We combine cutting-edge AI technology with user-friendly tools to transform your photos into stunning works of art.</p>
+             
+             <h3>Our Features</h3>
+             <ul>
+               <li><strong>AI Cartoonizer:</strong> Transform photos into artistic styles</li>
+               <li><strong>Smart Upscaling:</strong> Enhance image quality with Real-ESRGAN</li>
+               <li><strong>Background Removal:</strong> AI-powered object detection</li>
+               <li><strong>Format Conversion:</strong> Optimize for any platform</li>
+             </ul>
+             
+             <h3>Technology</h3>
+             <p>Built with Python, Flask, OpenCV, and Real-ESRGAN for professional-grade results. Your images are processed securely and never stored permanently.</p>
+              <div class="about-cta">
+                <a href="/about.html" class="secondary">Learn more about us →</a>
+              </div>
+           </div>
+         </div>
+       </section>
+
+       <section class="panel contact-panel" id="contact">
+         <h2>Contact Us</h2>
+         <div class="contact-content">
+           <div class="contact-info">
+             <h3>Get in Touch</h3>
+             <p>Have questions or suggestions? We'd love to hear from you!</p>
+             
+             <div class="contact-methods">
+               <div class="contact-method">
+                 <span class="contact-icon">📧</span>
+                 <div>
+                   <h4>Email</h4>
+                   <p>support@photoxcel.com</p>
+                 </div>
+               </div>
+               
+               <div class="contact-method">
+                 <span class="contact-icon">💬</span>
+                 <div>
+                   <h4>Live Chat</h4>
+                   <p>Available 24/7</p>
+                 </div>
+               </div>
+               
+               <div class="contact-method">
+                 <span class="contact-icon">📱</span>
+                 <div>
+                   <h4>Social Media</h4>
+                   <p>@photoxcel</p>
+                 </div>
+               </div>
+             </div>
+           </div>
+           
+           <form class="contact-form">
+             <h3>Send us a Message</h3>
+             <div class="form-group">
+               <label for="contactName">Name</label>
+               <input type="text" id="contactName" placeholder="Your name" />
+             </div>
+             <div class="form-group">
+               <label for="contactEmail">Email</label>
+               <input type="email" id="contactEmail" placeholder="your@email.com" />
+             </div>
+             <div class="form-group">
+               <label for="contactMessage">Message</label>
+               <textarea id="contactMessage" placeholder="Tell us what you think..." rows="4"></textarea>
+             </div>
+             <button type="submit" class="primary">Send Message</button>
+           </form>
+         </div>
+       </section>
+     </main>
+
+      <footer class="app-footer">
+       <div id="processBar" class="process-bar" hidden>
+         <span>Processing...</span>
+       </div>
+       <p>Made with ❤️ for people by Photoxcel</p>
+       <div class="footer-badge">All rights reserved | Erekan Developments</div>
+    </footer>
+
+    <script src="/script.js"></script>
+  </body>
+  </html>
+
+
