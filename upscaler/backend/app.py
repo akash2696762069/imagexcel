@@ -14,8 +14,6 @@ try:
     from rembg import remove as rembg_remove  # Optional: background removal
 except Exception:
     rembg_remove = None
-import torch
-from realesrgan import RealESRGANer
 
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -59,8 +57,12 @@ def postprocess_image(image: Image.Image, super_enhance: bool = False) -> Image.
         image = ImageEnhance.Color(image).enhance(1.1)
     return image
 
-# Initialize Real-ESRGAN model at app startup
+# Initialize Real-ESRGAN model at app startup (optional dependency)
 try:
+    # Import here so that deployment works even if realesrgan/torch are not installed
+    from realesrgan import RealESRGANer
+    import torch
+
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
     model_path = os.path.join(BASE_DIR, 'RealESRGANv2-animevideo-xsx4.pth')
     realesrgan_model = RealESRGANer(
